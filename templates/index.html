@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Recommendation Dashboard</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0e27;
+            color: #ffffff;
+            padding: 40px 20px;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 18px rgba(138, 43, 226, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .header h1 i {
+            color: #8a2be2;
+        }
+
+        .header span {
+            font-size: 16px;
+            color: #a0a0a0;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .header span i {
+            color: #bb86fc;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            background: linear-gradient(135deg, #171b32 0%, #261735 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .sidebar h2 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar h2 i {
+            color: #8a2be2;
+        }
+
+        .sidebar p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #b5b5b5;
+            margin-bottom: 25px;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-tags span {
+            background: rgba(138, 43, 226, 0.16);
+            color: #bb86fc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(138, 43, 226, 0.28);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tech-tags span i {
+            font-size: 12px;
+        }
+
+        /* ===== SEARCH SECTION ===== */
+        .search-section {
+            background: linear-gradient(135deg, #1b1f36 0%, #241a36 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .search-section h3 {
+            margin: 0 0 30px 0;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-section h3 i {
+            color: #8a2be2;
+        }
+
+        .search-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group label i {
+            color: #bb86fc;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 16px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border-radius: 12px;
+            border: 2px solid #2d2d4a;
+            background: #15172b;
+            color: #fff;
+            font-size: 18px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #912dee;
+            background: #1b1f36;
+            box-shadow: 0 0 0 1px rgba(138, 43, 226, 0.25);
+        }
+
+        input:focus + i {
+            color: #8a2be2;
+        }
+
+        input::placeholder {
+            color: #666;
+        }
+
+        .industry-group {
+            margin-top: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .industry-option {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 12px 16px;
+            background: rgba(138, 43, 226, 0.08);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .industry-option:hover {
+            background: rgba(138, 43, 226, 0.15);
+            border-color: rgba(138, 43, 226, 0.3);
+        }
+
+        .industry-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #8a2be2;
+        }
+
+        .industry-option span {
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .industry-option i {
+            color: #bb86fc;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 18px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #5b05a6 0%, #790ca8 100%);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button i {
+            font-size: 16px;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+        }
+
+        /* ===== ERROR ===== */
+        .error {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(220, 38, 38, 0.08);
+            color: #ff8a8a;
+            border-radius: 12px;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid rgba(220, 38, 38, 0.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .error i {
+            font-size: 16px;
+        }
+
+        /* ===== RESULTS ===== */
+        .results {
+            background: linear-gradient(135deg, #1b1f36 0%, #241a36 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .results h3 {
+            margin: 0 0 30px 0;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .results h3 i {
+            color: #8a2be2;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .movie-card {
+            background: linear-gradient(135deg, #171b32 0%, #261735 100%);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(138, 43, 226, 0.25);
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.38);
+        }
+
+        .movie-card:hover {
+            transform: translateY(-6px);
+            border-color: #8a2be2;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+        }
+
+        .movie-card i {
+            display: block;
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #8a2be2;
+        }
+
+        .movie-card span {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            display: block;
+            line-height: 1.4;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer i {
+            color: #8a2be2;
+        }
+
+        @media(max-width: 1024px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 768px) {
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="dashboard">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1><i class="fas fa-film"></i> Movie Recommendation</h1>
+        <span><i class="fas fa-robot"></i> AI-Powered Content-Based Filtering System</span>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content-wrapper">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h2><i class="fas fa-info-circle"></i> About System</h2>
+            <p>
+                Our advanced recommendation engine uses machine learning to analyze movie plots,
+                genres, and similarities to suggest personalized movie recommendations.
+            </p>
+
+            <div class="tech-tags">
+                <span><i class="fas fa-brain"></i> TF-IDF</span>
+                <span><i class="fas fa-project-diagram"></i> KNN</span>
+                <span><i class="fas fa-language"></i> NLP</span>
+                <span><i class="fab fa-python"></i> Flask</span>
+                <span><i class="fab fa-python"></i> Python</span>
+            </div>
+        </div>
+
+        <!-- SEARCH SECTION -->
+        <div class="search-section">
+            <h3><i class="fas fa-search"></i> Get Recommendations</h3>
+
+            <form method="POST" class="search-form">
+                <div class="form-group">
+                    <label><i class="fas fa-video"></i> Movie Name</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            name="movie"
+                            placeholder="e.g., The Dark Knight, Inception, Dangal..."
+                            value="{{ user_movie }}"
+                            required
+                        >
+                        <i class="fas fa-film"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-globe"></i> Select Industry</label>
+                    <div class="industry-group">
+                        <label class="industry-option">
+                            <input type="radio" name="industry" value="bollywood"
+                                {% if selected_industry == "bollywood" %}checked{% endif %}>
+                            <span><i class="fas fa-flag-usa"></i> Bollywood</span>
+                        </label>
+
+                        <label class="industry-option">
+                            <input type="radio" name="industry" value="hollywood"
+                                {% if selected_industry == "hollywood" %}checked{% endif %}>
+                            <span><i class="fas fa-flag"></i> Hollywood</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit">
+                    <i class="fas fa-magic"></i>
+                    Find Similar Movies
+                </button>
+            </form>
+
+            {% if error %}
+                <div class="error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    {{ error }}
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <!-- RESULTS -->
+    {% if recommendations %}
+    <div class="results">
+        <h3><i class="fas fa-star"></i> Similar to "{{ searched_movie }}"</h3>
+
+        <div class="movies-grid">
+            {% for movie in recommendations %}
+                <div class="movie-card">
+                    <i class="fas fa-video"></i>
+                    <span>{{ movie }}</span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <i class="fas fa-code"></i>
+        Powered by Machine Learning & Natural Language Processing
+    </div>
+
+</div>
+</body>
+</html>
